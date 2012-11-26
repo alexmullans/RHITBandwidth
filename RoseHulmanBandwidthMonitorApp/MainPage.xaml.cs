@@ -17,39 +17,28 @@ namespace RoseHulmanBandwidthMonitorApp
         // Constructor
         public MainPage()
         {
-
             InitializeComponent();
             Scraper.Scrape(this);
-            // Sample code to localize the ApplicationBar
-            //BuildLocalizedApplicationBar();
         }
 
-        // Sample code for building a localized ApplicationBar
-        //private void BuildLocalizedApplicationBar()
-        //{
-        //    // Set the page's ApplicationBar to a new instance of ApplicationBar.
-        //    ApplicationBar = new ApplicationBar();
-
-        //    // Create a new button and set the text value to the localized string from AppResources.
-        //    ApplicationBarIconButton appBarButton = new ApplicationBarIconButton(new Uri("/Assets/AppBar/appbar.add.rest.png", UriKind.Relative));
-        //    appBarButton.Text = AppResources.AppBarButtonText;
-        //    ApplicationBar.Buttons.Add(appBarButton);
-
-        //    // Create a new menu item with the localized string from AppResources.
-        //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
-        //    ApplicationBar.MenuItems.Add(appBarMenuItem);
-        //}
         public void UpdateUi(BandwidthResults bandwidthResults)
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
                                                           {
-                                                              UpdateBorder(DownloadUsageBorder,
-                                                                  GetBandwidthNumberFromString(bandwidthResults.PolicyReceived));
-                                                              UpdateBorder(UploadUsageBorder,
-                                                                  GetBandwidthNumberFromString(bandwidthResults.PolicySent));
-                                                              DownloadUsageTextBlock.Text =
-                                                                  bandwidthResults.PolicyReceived;
-                                                              UploadUsageTextBlock.Text = bandwidthResults.PolicySent;
+                                                              foreach (
+                                                                  var control in
+                                                                      new Dictionary<BandwidthMeter, String>()
+                                                                      {{PolicyDown, bandwidthResults.PolicyReceived}, 
+                                                                      {PolicyUp, bandwidthResults.PolicySent},
+                                                                      {ActualDown, bandwidthResults.ActualReceived},
+                                                                      {ActualUp, bandwidthResults.ActualSent}})
+                                                              {
+                                                                  UpdateBorder(control.Key.UsageBorder,
+                                                                               GetBandwidthNumberFromString(
+                                                                                   control.Value));
+                                                                  control.Key.UsageTextBlock.Text =
+                                                                      control.Value;
+                                                              }
                                                           });
         }
 
@@ -61,7 +50,7 @@ namespace RoseHulmanBandwidthMonitorApp
         private void UpdateBorder(Border border, double policyReceived)
         {
             border.Visibility = Visibility.Visible;
-            border.Height = policyReceived / 5000 * DownloadUsageGrid.ActualHeight;
+            border.Height = policyReceived / 5000 * PolicyUsageGrid.ActualHeight;
         }
 
         internal void ReportCredentialsError()

@@ -134,4 +134,7 @@
   <data name="AppBarMenuItemText" xml:space="preserve">
     <value>Menu Item</value>
   </data>
+  <data name="ApplicationTitleShort" xml:space="preserve">
+    <value>BANDWIDTH MONITOR</value>
+  </data>
 </root>

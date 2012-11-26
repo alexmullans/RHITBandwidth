@@ -7,9 +7,27 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="480" d:DesignWidth="480">
-    
-    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneChromeBrush}">
+    d:DesignHeight="480" d:DesignWidth="150">
 
-    </Grid>
+    <Border x:Name="LayoutRoot" BorderBrush="{StaticResource PhoneForegroundBrush}" BorderThickness="5">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".5*"/>
+                <RowDefinition Height=".5*"/>
+                <RowDefinition Height="4*"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Background="#88B22222">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top">5 GB</TextBlock>
+            </Border>
+            <Border Grid.Row="1" Background="#88FFA500">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top">4.5 GB</TextBlock>
+            </Border>
+            <Border Grid.Row="2"  Background="#8832CD32">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top">4 GB</TextBlock>
+            </Border>
+            <Border Name="UsageBorder" Grid.RowSpan="3"  Background="#FFB50938" VerticalAlignment="Bottom" MinHeight="40" Visibility="Collapsed">
+                <TextBlock Name="UsageTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+        </Grid>
+    </Border>
 </UserControl>
