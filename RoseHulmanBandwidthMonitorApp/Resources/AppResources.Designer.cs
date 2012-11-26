@@ -88,7 +88,7 @@ namespace RoseHulmanBandwidthMonitorApp.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to BANDWIDTH MONITOR.
+        ///   Looks up a localized string similar to rhit bandwidth monitor.
         /// </summary>
         public static string ApplicationTitleShort {
             get {

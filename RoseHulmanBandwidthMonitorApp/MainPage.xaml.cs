@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
@@ -33,13 +34,32 @@ namespace RoseHulmanBandwidthMonitorApp
                                                                       {ActualDown, bandwidthResults.ActualReceived},
                                                                       {ActualUp, bandwidthResults.ActualSent}})
                                                               {
-                                                                  UpdateBorder(control.Key.UsageBorder,
+                                                                  UpdateBorder(control.Key,
                                                                                GetBandwidthNumberFromString(
                                                                                    control.Value));
                                                                   control.Key.UsageTextBlock.Text =
                                                                       control.Value;
                                                               }
                                                           });
+
+
+
+
+
+            var tileData = new FlipTileData()
+            {
+                BackContent = GetBandwidthStringForTile(bandwidthResults)
+            };
+            var primaryTile = ShellTile.ActiveTiles.First();
+            primaryTile.Update(tileData);
+
+        }
+
+        private static String GetBandwidthStringForTile(BandwidthResults results)
+        {
+            var received = Convert.ToInt32(GetBandwidthNumberFromString(results.PolicyReceived)) + " MB";
+            var sent = Convert.ToInt32(GetBandwidthNumberFromString(results.PolicySent)) + " MB";
+            return results.BandwidthClass + "\r\nD: " + received + "\r\nU: " + sent;
         }
 
         private static double GetBandwidthNumberFromString(String str)
@@ -47,10 +67,12 @@ namespace RoseHulmanBandwidthMonitorApp
             return Double.Parse(str.Split(' ')[0]);
         }
 
-        private void UpdateBorder(Border border, double policyReceived)
+        private void UpdateBorder(BandwidthMeter meter, double policyReceived)
         {
-            border.Visibility = Visibility.Visible;
-            border.Height = policyReceived / 5000 * PolicyUsageGrid.ActualHeight;
+            var sb = (Storyboard)meter.Resources["ShowUsageStoryboard"];
+            var to = policyReceived / 5000 * PolicyUsageGrid.ActualHeight;
+            ((DoubleAnimation) sb.Children[0]).To = to > 40 ? to : 40;
+            sb.Begin();
         }
 
         internal void ReportCredentialsError()

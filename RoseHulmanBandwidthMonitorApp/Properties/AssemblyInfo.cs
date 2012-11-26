@@ -6,12 +6,12 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RoseHulmanBandwidthMonitorApp")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Rose-Hulman Bandwidth Monitor")]
+[assembly: AssemblyDescription("Monitor your Rose-Hulman on-campus bandwidth usage.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("RoseHulmanBandwidthMonitorApp")]
-[assembly: AssemblyCopyright("Copyright ©  2012")]
+[assembly: AssemblyProduct("RoseHulman Bandwidth Monitor")]
+[assembly: AssemblyCopyright("Copyright © Alexander J Mullans 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
