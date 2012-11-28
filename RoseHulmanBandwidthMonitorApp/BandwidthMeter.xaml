@@ -7,6 +7,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
     d:DesignHeight="480" d:DesignWidth="150">
     <UserControl.Resources>
         <Storyboard x:Name="ShowUsageStoryboard">
@@ -28,13 +29,13 @@
                 <RowDefinition Height="4*"/>
             </Grid.RowDefinitions>
             <Border Grid.Row="0" Background="#88B22222">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top">5 GB</TextBlock>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding RedTextBlock}"/>
             </Border>
             <Border Grid.Row="1" Background="#88FFA500">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top">4.5 GB</TextBlock>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding YellowTextBlock}"/>
             </Border>
             <Border Grid.Row="2"  Background="#8832CD32">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top">4 GB</TextBlock>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding GreenTextBlock}"/>
             </Border>
             <Border Name="UsageBorder" Grid.RowSpan="3"  Background="#BBB50938" VerticalAlignment="Bottom" Height="0">
                 <TextBlock Name="UsageTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" />
