@@ -57,7 +57,7 @@ namespace RoseHulmanBandwidthMonitorApp
         public void UpdateBorder(double value, double gridHeight)
         {
             var sb = (Storyboard)Resources["ShowUsageStoryboard"];
-            var to = value / CapacityMb * gridHeight;
+            var to = (value / CapacityMb) * gridHeight;
             ((DoubleAnimation)sb.Children[0]).To = to > 40 ? to : 40;
             sb.Begin();
         }

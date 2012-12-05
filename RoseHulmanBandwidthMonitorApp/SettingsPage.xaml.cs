@@ -16,6 +16,11 @@ namespace RoseHulmanBandwidthMonitorApp
         public SettingsPage()
         {
             InitializeComponent();
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains("user"))
+                UsernameTextBox.Text = (string) settings["user"];
+            if (settings.Contains("pass"))
+                PasswordBox.Password = (string) settings["pass"];
         }
 
         private void SaveClick(object sender, EventArgs e)

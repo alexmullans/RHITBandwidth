@@ -56,12 +56,13 @@ namespace RoseHulmanBandwidthMonitorApp
 
         public void UpdateUi(BandwidthResults bandwidthResults, bool fromNetwork)
         {
+            HideDemoModeIndicator();
             foreach (var control in
-                       new Dictionary<BandwidthMeter, String>()
-                                                                          {{PolicyDown,bandwidthResults.PolicyReceived},
-                                                                              {PolicyUp, bandwidthResults.PolicySent},
-                                                                              {ActualDown,bandwidthResults.ActualReceived},
-                                                                              {ActualUp, bandwidthResults.ActualSent}})
+                       new Dictionary<BandwidthMeter, String> { 
+                       { PolicyDown, bandwidthResults.PolicyReceived }, 
+                       { PolicyUp, bandwidthResults.PolicySent }, 
+                       { ActualDown, bandwidthResults.ActualReceived },
+                       { ActualUp, bandwidthResults.ActualSent } })
             {
                 control.Key.UpdateBorder(GetBandwidthNumberFromString(
                     control.Value), PolicyUsageGrid.ActualHeight);
@@ -81,6 +82,18 @@ namespace RoseHulmanBandwidthMonitorApp
             primaryTile.Update(tileData);
             if (fromNetwork)
                 StopProgressIndicator();
+            if ((string)IsolatedStorageSettings.ApplicationSettings["user"] == "testuser")
+                ShowDemoModeIndicator();
+        }
+
+        private void ShowDemoModeIndicator()
+        {
+            DemoText.Visibility = Visibility.Visible;
+        }
+
+        private void HideDemoModeIndicator()
+        {
+            DemoText.Visibility = Visibility.Collapsed;
         }
 
         private static String GetBandwidthStringForTile(BandwidthResults results)
@@ -98,8 +111,16 @@ namespace RoseHulmanBandwidthMonitorApp
 
         internal void ReportCredentialsError()
         {
-            MessageBox.Show(
-                "The credentials you entered don't seem to be working, or we can't find the bandwidth tool right now.");
+            Dispatcher.BeginInvoke(() =>
+                                       {
+                                           MessageBox.Show(
+                                               "The credentials you entered don't seem to be working, or we can't find the bandwidth tool right now.");
+                                           NavigationService.Navigate(new Uri("/SettingsPage.xaml", UriKind.Relative));
+                                       });
+        }
+
+        private void SettingsButtonClick(object sender, EventArgs e)
+        {
             NavigationService.Navigate(new Uri("/SettingsPage.xaml", UriKind.Relative));
         }
     }

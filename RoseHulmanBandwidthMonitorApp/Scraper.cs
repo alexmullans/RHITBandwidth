@@ -34,12 +34,14 @@ namespace RoseHulmanBandwidthMonitorApp
         public static BandwidthResults RetrieveFromIsolatedStorage()
         {
             var settings = IsolatedStorageSettings.ApplicationSettings;
-            var toReturn = new BandwidthResults();
-            toReturn.BandwidthClass = (String)settings["BandwidthClass"];
-            toReturn.PolicyReceived = (String)settings["PolicyRecieved"];
-            toReturn.PolicySent = (String)settings["PolicySent"];
-            toReturn.ActualReceived = (String)settings["ActualReceived"];
-            toReturn.ActualSent = (String)settings["ActualSent"];
+            var toReturn = new BandwidthResults
+                               {
+                                   BandwidthClass = (String) settings["BandwidthClass"],
+                                   PolicyReceived = (String) settings["PolicyRecieved"],
+                                   PolicySent = (String) settings["PolicySent"],
+                                   ActualReceived = (String) settings["ActualReceived"],
+                                   ActualSent = (String) settings["ActualSent"]
+                               };
             return toReturn;
         }
     }
@@ -47,7 +49,6 @@ namespace RoseHulmanBandwidthMonitorApp
     public class Scraper
     {
         private static MainPage _page;
-        private const int BUFFER_SIZE = 1024;
 
         public static void Scrape(object page)
         {
@@ -56,7 +57,10 @@ namespace RoseHulmanBandwidthMonitorApp
             var web = new HtmlWeb();
             web.LoadCompleted += ParseBandwidthDocument;
             var settings = IsolatedStorageSettings.ApplicationSettings;
-            web.LoadAsync("http://netreg.rose-hulman.edu/tools/networkUsage.pl",
+            var siteToLoad = (String)settings["user"] == "testuser" ?
+                                    "http://alexmullans.com/bandwidth.html" :
+                                    "http://netreg.rose-hulman.edu/tools/networkUsage.pl";
+            web.LoadAsync(siteToLoad,
                 new UTF8Encoding(),
                 (String)settings["user"],
                 (String)settings["pass"],
@@ -78,13 +82,14 @@ namespace RoseHulmanBandwidthMonitorApp
                                select desc.ParentNode.ParentNode;
 
             var resultsList = summaryTable.ElementAt(0).Elements("tr").ElementAt(1).Elements("td");
+            var htmlNodes = resultsList as HtmlNode[] ?? resultsList.ToArray();
             var results = new BandwidthResults()
                               {
-                                  BandwidthClass = resultsList.ElementAt(0).InnerText,
-                                  PolicyReceived = resultsList.ElementAt(1).InnerText,
-                                  PolicySent = resultsList.ElementAt(2).InnerText,
-                                  ActualReceived = resultsList.ElementAt(3).InnerText,
-                                  ActualSent = resultsList.ElementAt(4).InnerText
+                                  BandwidthClass = htmlNodes.ElementAt(0).InnerText,
+                                  PolicyReceived = htmlNodes.ElementAt(1).InnerText,
+                                  PolicySent = htmlNodes.ElementAt(2).InnerText,
+                                  ActualReceived = htmlNodes.ElementAt(3).InnerText,
+                                  ActualSent = htmlNodes.ElementAt(4).InnerText
                               };
             Deployment.Current.Dispatcher.BeginInvoke(() => _page.UpdateUi(results, true));
             results.SaveToIsolatedStorage();
