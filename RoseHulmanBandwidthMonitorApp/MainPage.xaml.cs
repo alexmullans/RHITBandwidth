@@ -37,8 +37,21 @@ namespace RoseHulmanBandwidthMonitorApp
 
         private void MainPageLoaded(object sender, RoutedEventArgs e)
         {
-            if (IsolatedStorageSettings.ApplicationSettings.Contains("BandwidthClass"))
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains("BandwidthClass"))
                 UpdateUi(BandwidthResults.RetrieveFromIsolatedStorage(), false);
+            PolicyDown.LowThresholdMb = (int)settings["LowThreshold"];
+            PolicyDown.MidThresholdMb = (int)settings["MidThreshold"];
+            PolicyUp.LowThresholdMb = (int)settings["LowThreshold"];
+            PolicyUp.MidThresholdMb = (int)settings["MidThreshold"];
+
+            var lowThresholdMultipliedByDiscount = (int)settings["LowThreshold"] * Math.Pow(1 - ((int)settings["PctDiscount"]) / 100.0, -1);
+            var midThresholdMultipliedByDiscount = (int)settings["MidThreshold"] * Math.Pow(1 - ((int)settings["PctDiscount"]) / 100.0, -1);
+
+            ActualDown.LowThresholdMb = (int)lowThresholdMultipliedByDiscount;
+            ActualDown.MidThresholdMb = (int)midThresholdMultipliedByDiscount;
+            ActualUp.LowThresholdMb = (int)lowThresholdMultipliedByDiscount;
+            ActualUp.MidThresholdMb = (int)midThresholdMultipliedByDiscount;
 
             var indicator = new ProgressIndicator();
             indicator.IsVisible = true;
@@ -59,13 +72,12 @@ namespace RoseHulmanBandwidthMonitorApp
             HideDemoModeIndicator();
             foreach (var control in
                        new Dictionary<BandwidthMeter, String> { 
-                       { PolicyDown, bandwidthResults.PolicyReceived }, 
-                       { PolicyUp, bandwidthResults.PolicySent }, 
-                       { ActualDown, bandwidthResults.ActualReceived },
-                       { ActualUp, bandwidthResults.ActualSent } })
+            { PolicyDown, bandwidthResults.PolicyReceived },
+            { PolicyUp, bandwidthResults.PolicySent }, 
+            { ActualDown, bandwidthResults.ActualReceived },
+            { ActualUp, bandwidthResults.ActualSent } })
             {
-                control.Key.UpdateBorder(GetBandwidthNumberFromString(
-                    control.Value), PolicyUsageGrid.ActualHeight);
+                control.Key.UpdateBorder(GetBandwidthNumberFromString(control.Value), PolicyDown.ActualHeight);
                 control.Key.UsageTextBlock.Text =
                     control.Value;
             }
@@ -73,10 +85,7 @@ namespace RoseHulmanBandwidthMonitorApp
             var tileData = new FlipTileData()
                                {
                                    BackContent = GetBandwidthStringForTile(bandwidthResults),
-                                   Title = "Bandwidth Monitor",
-                                   Count =
-                                       Convert.ToInt32(GetBandwidthNumberFromString(bandwidthResults.PolicyReceived) /
-                                                       1000)
+                                   Title = "Bandwidth Monitor"
                                };
             var primaryTile = ShellTile.ActiveTiles.First();
             primaryTile.Update(tileData);

@@ -62,12 +62,24 @@ namespace RoseHulmanBandwidthMonitorApp
         {
             if (!e.Uri.ToString().Contains("/MainPage.xaml"))
                 return;
-            if (!IsolatedStorageSettings.ApplicationSettings.Contains("user"))
-            {
-                e.Cancel = true;
-                RootFrame.Dispatcher.BeginInvoke(() => RootFrame.Navigate(new Uri("/SettingsPage.xaml",
-                                                                                  UriKind.Relative)));
-            }
+
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains("user"))
+                return; // no first-time setup required
+
+            e.Cancel = true; // first-time setup required
+            if (!settings.Contains("MidThreshold")) AddDefaultSettings(settings);
+            RootFrame.Dispatcher.BeginInvoke(() => RootFrame.Navigate(new Uri("/SettingsPage.xaml",
+                                                       UriKind.Relative)));
+        }
+
+        private static void AddDefaultSettings(IsolatedStorageSettings settings)
+        {
+            settings.Add("MidThreshold", 8000);
+            settings.Add("LowThreshold", 9000);
+            settings.Add("MidRate", 1024);
+            settings.Add("LowRate", 256);
+            settings.Add("PctDiscount", 75);
         }
 
         // Code to execute when the application is launching (eg, from Start)

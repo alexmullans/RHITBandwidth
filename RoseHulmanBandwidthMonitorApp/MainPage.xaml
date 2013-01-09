@@ -39,9 +39,9 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Download" HorizontalAlignment="Center" Style="{StaticResource PhoneTextTitle3Style}"/>
-                    <local:BandwidthMeter Grid.Row="1"  Name="PolicyDown" Grid.Column="0" RedTextBlock="5 GB" YellowTextBlock="4.5 GB" GreenTextBlock="4 GB" CapacityMb="5000"/>
+                    <local:BandwidthMeter Grid.Row="1" Name="PolicyDown" Grid.Column="0" />
                     <TextBlock Grid.Column="2" Text="Upload" HorizontalAlignment="Center" Style="{StaticResource PhoneTextTitle3Style}"/>
-                    <local:BandwidthMeter Grid.Row="1" Name="PolicyUp" Grid.Column="2" RedTextBlock="5 GB" YellowTextBlock="4.5 GB" GreenTextBlock="4 GB" CapacityMb="5000"/>
+                    <local:BandwidthMeter Grid.Row="1" Name="PolicyUp" Grid.Column="2" />
                 </Grid>
             </phone:PanoramaItem>
             <phone:PanoramaItem Header="actual usage">
@@ -56,13 +56,14 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Download" HorizontalAlignment="Center" Style="{StaticResource PhoneTextTitle3Style}"/>
-                    <local:BandwidthMeter Name="ActualDown" Grid.Row="1" Grid.Column="0" RedTextBlock="20 GB" YellowTextBlock="18 GB" GreenTextBlock="16 GB" CapacityMb="20000" />
+                    <local:BandwidthMeter Name="ActualDown" Grid.Row="1" Grid.Column="0"/>
                     <TextBlock Grid.Column="2" Text="Upload" HorizontalAlignment="Center" Style="{StaticResource PhoneTextTitle3Style}"/>
-                    <local:BandwidthMeter Name="ActualUp" Grid.Row="1" Grid.Column="2" RedTextBlock="20 GB" YellowTextBlock="18 GB" GreenTextBlock="16 GB" CapacityMb="20000"/>
+                    <local:BandwidthMeter Name="ActualUp" Grid.Row="1" Grid.Column="2" />
                 </Grid>
             </phone:PanoramaItem>
             <phone:PanoramaItem Header="campus graph">
-                <Image Source="http://web.rose-hulman.edu/administration/helpdesk/siteimages/Internet_Link_Utilization_1Day.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Image Source="http://web.rose-hulman.edu/administration/helpdesk/siteimages/Internet_Link_Utilization_1Day.png"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </phone:PanoramaItem>
         </phone:Panorama>
         <TextBlock Name="DemoText" Visibility="Collapsed" Style="{StaticResource PhoneTextSmallStyle}" Text="Can't reach Rose-Hulman servers - using demo server" Foreground="{StaticResource PhoneTextHighContrastBrush}"></TextBlock>

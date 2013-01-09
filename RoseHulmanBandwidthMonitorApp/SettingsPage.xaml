@@ -9,6 +9,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
@@ -18,21 +19,9 @@
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
-    <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0"/>
-            <TextBlock Text="credentials" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel>
-
-        <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+    <phone:Panorama Title="settings">
+        <phone:PanoramaItem Header="credentials">
+            <!--ContentPanel - place additional content here-->
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -45,9 +34,52 @@
                 <TextBlock Grid.Row="2" Text="password" Style="{StaticResource PhoneTextTitle2Style}"/>
                 <PasswordBox Name="PasswordBox" Grid.Row="3"/>
             </Grid>
-        </Grid>
+        </phone:PanoramaItem>
+        <phone:PanoramaItem Header="limits">
+            <ScrollViewer>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="lowest threshold/rate" Style="{StaticResource PhoneTextTitle2Style}"/>
+                    <TextBox Name="LowThresholdTextBox" Grid.Row="1" MaxLength="4"/>
+                    <TextBlock Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="0,0,5,0"
+                           Text="gb" Style="{StaticResource PhoneTextNormalStyle}" Foreground="Black"/>
+                    <TextBox Name="LowRateTextBox" Grid.Row="1" Grid.Column="1" Text="{Binding LowRate}" />
+                    <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="0,0,5,0"
+                           Text="kbps" Style="{StaticResource PhoneTextNormalStyle}" Foreground="Black"/>
 
-    </Grid>
+                    <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="middle threshold/rate" Style="{StaticResource PhoneTextTitle2Style}"/>
+                    <TextBox Name="MidThresholdTextBox" Grid.Row="3" Text="{Binding MidThreshold}" MaxLength="4"/>
+                    <TextBlock Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="0,0,5,0"
+                           Text="gb" Style="{StaticResource PhoneTextNormalStyle}" Foreground="Black"/>
+                    <TextBox Name="MidRateTextBox" Grid.Row="3" Grid.Column="1" Text="{Binding MidRate}"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="0,0,5,0"
+                           Text="kbps" Style="{StaticResource PhoneTextNormalStyle}" Foreground="Black"/>
+
+                    <TextBlock Grid.Row="4" Grid.ColumnSpan="2" Text="base threshold" Style="{StaticResource PhoneTextTitle2Style}"/>
+                    <TextBox Grid.Row="5" Grid.ColumnSpan="2" Text="Unrestricted" IsEnabled="False"/>
+
+                    <TextBlock Grid.Row="6" Grid.ColumnSpan="2" Text="highest percent discount" Style="{StaticResource PhoneTextTitle2Style}"/>
+                    <TextBox Name="HighestPercentDiscountTextBox" Grid.Row="7" MaxLength="2" />
+                    <TextBlock Grid.Row="7" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="0,0,5,0"
+                           Text="%" Style="{StaticResource PhoneTextNormalStyle}" Foreground="Black"/>
+                </Grid>
+            </ScrollViewer>
+        </phone:PanoramaItem>
+    </phone:Panorama>
+
 
 
 </phone:PhoneApplicationPage>

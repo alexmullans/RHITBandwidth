@@ -24,20 +24,18 @@
     <Border x:Name="LayoutRoot" BorderBrush="{StaticResource PhoneForegroundBrush}" BorderThickness="5">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height=".5*"/>
-                <RowDefinition Height=".5*"/>
-                <RowDefinition Height="4*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="8*"/>
             </Grid.RowDefinitions>
-            <Border Grid.Row="0" Background="#88B22222">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding RedTextBlock}"/>
-            </Border>
+            <Border Grid.Row="0" Background="#BBB50938" />
             <Border Grid.Row="1" Background="#88FFA500">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding YellowTextBlock}"/>
+                <TextBlock Name="RedTextBlock" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-15,0,0" Canvas.ZIndex="10"/>
             </Border>
             <Border Grid.Row="2"  Background="#8832CD32">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding GreenTextBlock}"/>
+                <TextBlock Name="YellowTextBlock" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-15,0,0" />
             </Border>
-            <Border Name="UsageBorder" Grid.RowSpan="3"  Background="#BBB50938" VerticalAlignment="Bottom" Height="0">
+            <Border Name="UsageBorder" Grid.RowSpan="3" Background="#BB000000" VerticalAlignment="Bottom" Height="0">
                 <TextBlock Name="UsageTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
         </Grid>

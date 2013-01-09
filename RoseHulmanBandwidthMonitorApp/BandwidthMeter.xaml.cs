@@ -16,48 +16,39 @@ namespace RoseHulmanBandwidthMonitorApp
         public BandwidthMeter()
         {
             InitializeComponent();
+            Loaded += this.BandwidthMeterLoaded;
         }
 
-        public static readonly DependencyProperty RedTextBlockProperty =
-            DependencyProperty.Register("RedTextBlock", typeof(String), typeof(BandwidthMeter), new PropertyMetadata(default(String)));
-
-        public String RedTextBlock
+        void BandwidthMeterLoaded(object sender, RoutedEventArgs e)
         {
-            get { return (String)GetValue(RedTextBlockProperty); }
-            set { SetValue(RedTextBlockProperty, value); }
+            RedTextBlock.Text = LowThresholdMb + " MB";
+            YellowTextBlock.Text = this.MidThresholdMb + " MB";
         }
 
-        public static readonly DependencyProperty YellowTextBlockProperty =
-            DependencyProperty.Register("YellowTextBlock", typeof(String), typeof(BandwidthMeter), new PropertyMetadata(default(String)));
+        public static readonly DependencyProperty LowThresholdMbProperty =
+            DependencyProperty.Register("LowThresholdMb", typeof(Int32), typeof(BandwidthMeter), new PropertyMetadata(default(Int32)));
 
-        public String YellowTextBlock
+        public Int32 LowThresholdMb
         {
-            get { return (String)GetValue(YellowTextBlockProperty); }
-            set { SetValue(YellowTextBlockProperty, value); }
+            get { return (Int32)GetValue(LowThresholdMbProperty); }
+            set { SetValue(LowThresholdMbProperty, value); }
         }
 
-        public static readonly DependencyProperty GreenTextBlockProperty =
-            DependencyProperty.Register("GreenTextBlock", typeof(String), typeof(BandwidthMeter), new PropertyMetadata(default(String)));
+        public static readonly DependencyProperty MedThresholdMbProperty =
+            DependencyProperty.Register("MidThresholdMb", typeof(Int32), typeof(BandwidthMeter), new PropertyMetadata(default(Int32)));
 
-        public String GreenTextBlock
+        public Int32 MidThresholdMb
         {
-            get { return (String)GetValue(GreenTextBlockProperty); }
-            set { SetValue(GreenTextBlockProperty, value); }
-        }
-
-        public static readonly DependencyProperty CapacityMbProperty =
-            DependencyProperty.Register("CapacityMb", typeof(Int32), typeof(BandwidthMeter), new PropertyMetadata(default(Int32)));
-
-        public Int32 CapacityMb
-        {
-            get { return (Int32)GetValue(CapacityMbProperty); }
-            set { SetValue(CapacityMbProperty, value); }
+            get { return (Int32)GetValue(MedThresholdMbProperty); }
+            set { SetValue(MedThresholdMbProperty, value); }
         }
 
         public void UpdateBorder(double value, double gridHeight)
         {
             var sb = (Storyboard)Resources["ShowUsageStoryboard"];
-            var to = (value / CapacityMb) * gridHeight;
+            var fractionOfMaxUsageShown = (value / (2 * this.LowThresholdMb - this.MidThresholdMb));
+            var heightFromFraction = fractionOfMaxUsageShown *gridHeight;
+            var to = heightFromFraction - 7.5; // compensate for border
             ((DoubleAnimation)sb.Children[0]).To = to > 40 ? to : 40;
             sb.Begin();
         }
