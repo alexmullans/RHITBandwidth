@@ -37,7 +37,7 @@
         </phone:PanoramaItem>
         <phone:PanoramaItem Header="limits">
             <ScrollViewer>
-                <Grid>
+                <Grid BindingValidationError="LimitsGridBindingValidationError">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -50,36 +50,59 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="lowest threshold/rate" Style="{StaticResource PhoneTextTitle2Style}"/>
-                    <TextBox Name="LowThresholdTextBox" Grid.Row="1" MaxLength="4"/>
+                    <!-- lowest threshold -->
+                    <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="lowest threshold/rate" Style="{StaticResource PhoneTextTitle2Style}"/>
+
+                    <TextBox Name="LowThresholdTextBox" Grid.Row="1" MaxLength="5" InputScope="Number"
+                             Text="{Binding Path=LowThreshold, Mode=TwoWay, 
+                                    NotifyOnValidationError=True,
+                                    ValidatesOnDataErrors=True}"
+                             TextChanged="TextBoxTextChanged"/>
                     <TextBlock Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="0,0,5,0"
                            Text="gb" Style="{StaticResource PhoneTextNormalStyle}" Foreground="Black"/>
-                    <TextBox Name="LowRateTextBox" Grid.Row="1" Grid.Column="1" Text="{Binding LowRate}" />
-                    <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="0,0,5,0"
-                           Text="kbps" Style="{StaticResource PhoneTextNormalStyle}" Foreground="Black"/>
 
-                    <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="middle threshold/rate" Style="{StaticResource PhoneTextTitle2Style}"/>
-                    <TextBox Name="MidThresholdTextBox" Grid.Row="3" Text="{Binding MidThreshold}" MaxLength="4"/>
+                    <TextBlock Name="LowErrorTextBlock" Grid.Row="1" Grid.Column="1"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Foreground="Red" TextWrapping="Wrap"/>
+
+                    <TextBox Name="LowRateTextBox" Grid.Row="1" Grid.Column="2" MaxLength="5" InputScope="Number"/>
+                    <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="0,0,5,0"
+                           Text="kbps" Style="{StaticResource PhoneTextNormalStyle}" Foreground="Black" />
+
+                    <!-- middle threshold -->
+                    <TextBlock Grid.Row="2" Grid.ColumnSpan="3" Text="middle threshold/rate" Style="{StaticResource PhoneTextTitle2Style}"/>
+
+                    <TextBox Name="MidThresholdTextBox" Grid.Row="3" MaxLength="5" InputScope="Number"
+                             Text="{Binding Path=MidThreshold, Mode=TwoWay, 
+                                    NotifyOnValidationError=True,
+                                    ValidatesOnDataErrors=True}"
+                             TextChanged="TextBoxTextChanged"/>
                     <TextBlock Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="0,0,5,0"
                            Text="gb" Style="{StaticResource PhoneTextNormalStyle}" Foreground="Black"/>
-                    <TextBox Name="MidRateTextBox" Grid.Row="3" Grid.Column="1" Text="{Binding MidRate}"/>
-                    <TextBlock Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="0,0,5,0"
+
+                    <TextBlock Name="MidErrorTextBlock" Grid.Row="3" Grid.Column="1"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Foreground="Red" TextWrapping="Wrap"/>
+
+                    <TextBox Name="MidRateTextBox" Grid.Row="3" Grid.Column="2" MaxLength="5" InputScope="Number"/>
+                    <TextBlock Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="0,0,5,0"
                            Text="kbps" Style="{StaticResource PhoneTextNormalStyle}" Foreground="Black"/>
 
-                    <TextBlock Grid.Row="4" Grid.ColumnSpan="2" Text="base threshold" Style="{StaticResource PhoneTextTitle2Style}"/>
-                    <TextBox Grid.Row="5" Grid.ColumnSpan="2" Text="Unrestricted" IsEnabled="False"/>
+                    <!-- base threshold -->
+                    <TextBlock Grid.Row="4" Grid.ColumnSpan="3" Text="base threshold" Style="{StaticResource PhoneTextTitle2Style}"/>
+                    <TextBox Grid.Row="5" Grid.ColumnSpan="3" Text="Unrestricted" IsEnabled="False"/>
 
-                    <TextBlock Grid.Row="6" Grid.ColumnSpan="2" Text="highest percent discount" Style="{StaticResource PhoneTextTitle2Style}"/>
-                    <TextBox Name="HighestPercentDiscountTextBox" Grid.Row="7" MaxLength="2" />
+                    <!-- highest percent discount -->
+                    <TextBlock Grid.Row="6" Grid.ColumnSpan="3" Text="highest percent discount" Style="{StaticResource PhoneTextTitle2Style}"/>
+
+                    <TextBox Name="HighestPercentDiscountTextBox" Grid.Row="7" MaxLength="3" InputScope="Number" />
                     <TextBlock Grid.Row="7" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="0,0,5,0"
                            Text="%" Style="{StaticResource PhoneTextNormalStyle}" Foreground="Black"/>
                 </Grid>
             </ScrollViewer>
         </phone:PanoramaItem>
     </phone:Panorama>
-
-
-
 </phone:PhoneApplicationPage>

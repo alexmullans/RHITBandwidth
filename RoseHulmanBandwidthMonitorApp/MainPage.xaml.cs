@@ -38,8 +38,6 @@ namespace RoseHulmanBandwidthMonitorApp
         private void MainPageLoaded(object sender, RoutedEventArgs e)
         {
             var settings = IsolatedStorageSettings.ApplicationSettings;
-            if (settings.Contains("BandwidthClass"))
-                UpdateUi(BandwidthResults.RetrieveFromIsolatedStorage(), false);
             PolicyDown.LowThresholdMb = (int)settings["LowThreshold"];
             PolicyDown.MidThresholdMb = (int)settings["MidThreshold"];
             PolicyUp.LowThresholdMb = (int)settings["LowThreshold"];
@@ -53,10 +51,16 @@ namespace RoseHulmanBandwidthMonitorApp
             ActualUp.LowThresholdMb = (int)lowThresholdMultipliedByDiscount;
             ActualUp.MidThresholdMb = (int)midThresholdMultipliedByDiscount;
 
-            var indicator = new ProgressIndicator();
-            indicator.IsVisible = true;
-            indicator.Text = "Updating usage...";
-            indicator.IsIndeterminate = true;
+            if (settings.Contains("BandwidthClass"))
+                UpdateUi(BandwidthResults.RetrieveFromIsolatedStorage(), false);
+
+
+            var indicator = new ProgressIndicator
+                                {
+                                    IsVisible = true,
+                                    Text = "Updating usage...",
+                                    IsIndeterminate = true
+                                };
             SystemTray.ProgressIndicator = indicator;
 
             new Thread(Scraper.Scrape).Start(this);
