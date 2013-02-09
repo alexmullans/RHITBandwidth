@@ -2,17 +2,13 @@
 using System.Collections.Generic;
 using System.IO.IsolatedStorage;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
+
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using RoseHulmanBandwidthMonitorApp.Resources;
 
 namespace RoseHulmanBandwidthMonitorApp
 {
@@ -54,7 +50,6 @@ namespace RoseHulmanBandwidthMonitorApp
             if (settings.Contains("BandwidthClass"))
                 UpdateUi(BandwidthResults.RetrieveFromIsolatedStorage(), false);
 
-
             var indicator = new ProgressIndicator
                                 {
                                     IsVisible = true,
@@ -64,11 +59,6 @@ namespace RoseHulmanBandwidthMonitorApp
             SystemTray.ProgressIndicator = indicator;
 
             new Thread(Scraper.Scrape).Start(this);
-        }
-
-        private void StopProgressIndicator()
-        {
-            SystemTray.ProgressIndicator.IsVisible = false;
         }
 
         public void UpdateUi(BandwidthResults bandwidthResults, bool fromNetwork)
@@ -87,14 +77,14 @@ namespace RoseHulmanBandwidthMonitorApp
             }
 
             var tileData = new FlipTileData()
-                               {
-                                   BackContent = GetBandwidthStringForTile(bandwidthResults),
-                                   Title = "Bandwidth Monitor"
-                               };
+                {
+                    BackContent = GetBandwidthStringForTile(bandwidthResults),
+                    Title = "Bandwidth Monitor"
+                };
             var primaryTile = ShellTile.ActiveTiles.First();
             primaryTile.Update(tileData);
             if (fromNetwork)
-                StopProgressIndicator();
+                SystemTray.ProgressIndicator.IsVisible = false;
             if ((string)IsolatedStorageSettings.ApplicationSettings["user"] == "testuser")
                 ShowDemoModeIndicator();
         }
