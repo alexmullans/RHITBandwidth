@@ -1,19 +1,19 @@
 ﻿<UserControl x:Class="W8RHITBandwidth.BandwidthMeter"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    DataContext="{Binding RelativeSource={RelativeSource Self}}"
-    d:DesignHeight="480" d:DesignWidth="150">
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             d:DesignHeight="480" d:DesignWidth="150">
     <UserControl.Resources>
         <Storyboard x:Name="ShowUsageStoryboard">
-            <DoubleAnimation Storyboard.TargetName="UsageBorder" 
-                             Storyboard.TargetProperty="Height" 
+            <DoubleAnimation Storyboard.TargetName="UsageBorder"
+                             Storyboard.TargetProperty="Height"
                              Duration="0:0:2"
                              EnableDependentAnimation="True">
                 <DoubleAnimation.EasingFunction>
-                    <CircleEase EasingMode="EaseInOut"/>
+                    <CircleEase EasingMode="EaseInOut" />
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
@@ -22,22 +22,24 @@
     <Border x:Name="LayoutRoot" BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" BorderThickness="5">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="8*"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="8*" />
             </Grid.RowDefinitions>
             <Border Grid.Row="0" Background="#BBB50938" />
             <Border Grid.Row="1" Background="#88FFA500">
-                <TextBlock Name="RedTextBlock" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-15,0,0" Canvas.ZIndex="10"
-                           Style="{StaticResource SubheaderTextStyle}"/>
+                <TextBlock Name="RedTextBlock" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-15,0,0"
+                           Canvas.ZIndex="10"
+                           Style="{StaticResource SubheaderTextStyle}" />
             </Border>
-            <Border Grid.Row="2"  Background="#8832CD32">
-                <TextBlock Name="YellowTextBlock" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-15,0,0"
-                           Style="{StaticResource SubheaderTextStyle}"/>
+            <Border Grid.Row="2" Background="#8832CD32">
+                <TextBlock Name="YellowTextBlock" HorizontalAlignment="Center" VerticalAlignment="Top"
+                           Margin="0,-15,0,0"
+                           Style="{StaticResource SubheaderTextStyle}" />
             </Border>
             <Border Name="UsageBorder" Grid.RowSpan="3" Background="#BB000000" VerticalAlignment="Bottom" Height="0">
                 <TextBlock Name="UsageTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"
-                           Style="{StaticResource SubheaderTextStyle}"/>
+                           Style="{StaticResource SubheaderTextStyle}" />
             </Border>
         </Grid>
     </Border>

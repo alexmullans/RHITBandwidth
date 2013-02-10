@@ -231,4 +231,20 @@
       <AnalyzerSettings />
     </Analyzer>
   </Analyzers>
+        <SourceFileList>
+	<SourceFile>AssemblyInfo.cs</SourceFile>
+    <SourceFile>SuspensionManager.cs</SourceFile>
+	<SourceFile>LayoutAwarePage.cs</SourceFile>
+	<SourceFile>BindableBase.cs</SourceFile>
+	<SourceFile>RichTextColumns.cs</SourceFile>
+	<SourceFile>BooleanNegationConverter.cs</SourceFile>
+	<SourceFile>BooleanToVisibilityConverter.cs</SourceFile>
+	<SourceFile>PDFViewerWithFoxitReader.xaml.cs</SourceFile>
+	<SourceFile>Annotations.cs</SourceFile>
+    <Settings>
+    <GlobalSettings>
+      <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+    </GlobalSettings>
+    </Settings>
+  </SourceFileList>
 </StyleCopSettings>

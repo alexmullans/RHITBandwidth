@@ -1,4 +1,13 @@
-﻿namespace W8RHITBandwidth
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MainPage.xaml.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   A basic page that provides characteristics common to most applications.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace W8RHITBandwidth
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +18,6 @@
 
     using Windows.Foundation.Collections;
     using Windows.Storage;
-    using Windows.System.Threading;
     using Windows.UI.Popups;
     using Windows.UI.Xaml;
 
@@ -20,16 +28,28 @@
     {
         #region Constructors and Destructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainPage"/> class.
+        /// </summary>
         public MainPage()
         {
-            this.InitializeComponent();
-            this.Loaded += this.MainPageLoaded;
+            InitializeComponent();
+            Loaded += MainPageLoaded;
         }
 
         #endregion
 
         #region Public Methods and Operators
 
+        /// <summary>
+        /// The update ui.
+        /// </summary>
+        /// <param name="bandwidthResults">
+        /// The bandwidth results.
+        /// </param>
+        /// <param name="fromNetwork">
+        /// The from network.
+        /// </param>
         public void UpdateUi(BandwidthResults bandwidthResults, bool fromNetwork)
         {
             foreach (var control in
@@ -41,7 +61,7 @@
                         { ActualUp, bandwidthResults.ActualSent }
                     })
             {
-                control.Key.UpdateBorder(GetBandwidthNumberFromString(control.Value), this.PolicyDown.ActualHeight);
+                control.Key.UpdateBorder(GetBandwidthNumberFromString(control.Value), PolicyDown.ActualHeight);
                 control.Key.UpdateText(control.Value);
             }
         }
@@ -50,6 +70,9 @@
 
         #region Methods
 
+        /// <summary>
+        /// The report credentials error.
+        /// </summary>
         internal void ReportCredentialsError()
         {
             new MessageDialog(
@@ -57,11 +80,29 @@
                 .ShowAsync();
         }
 
+        /// <summary>
+        /// The get bandwidth number from string.
+        /// </summary>
+        /// <param name="str">
+        /// The str.
+        /// </param>
+        /// <returns>
+        /// The <see cref="double"/>.
+        /// </returns>
         private static double GetBandwidthNumberFromString(string str)
         {
             return double.Parse(str.Split(' ')[0]);
         }
 
+        /// <summary>
+        /// The main page loaded.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         private async void MainPageLoaded(object sender, RoutedEventArgs e)
         {
             IPropertySet settings = ApplicationData.Current.RoamingSettings.Values;
@@ -71,9 +112,9 @@
             PolicyUp.MidThresholdMb = (int)settings["MidThreshold"];
 
             double lowThresholdMultipliedByDiscount = (int)settings["LowThreshold"]
-                                                      * Math.Pow(1 - ((int)settings["PctDiscount"]) / 100.0, -1);
+                                                      * Math.Pow(1 - (((int)settings["PctDiscount"]) / 100.0), -1);
             double midThresholdMultipliedByDiscount = (int)settings["MidThreshold"]
-                                                      * Math.Pow(1 - ((int)settings["PctDiscount"]) / 100.0, -1);
+                                                      * Math.Pow(1 - (((int)settings["PctDiscount"]) / 100.0), -1);
 
             ActualDown.LowThresholdMb = (int)lowThresholdMultipliedByDiscount;
             ActualDown.MidThresholdMb = (int)midThresholdMultipliedByDiscount;
@@ -82,10 +123,10 @@
 
             if (settings.ContainsKey("BandwidthClass"))
             {
-                this.UpdateUi(BandwidthResults.RetrieveFromIsolatedStorage(), false);
+                UpdateUi(BandwidthResults.RetrieveFromIsolatedStorage(), false);
             }
 
-            var results = await Scraper.Scrape();
+            BandwidthResults results = await Scraper.Scrape();
             UpdateUi(results, true);
         }
 
