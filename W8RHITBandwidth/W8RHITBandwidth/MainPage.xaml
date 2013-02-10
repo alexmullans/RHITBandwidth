@@ -9,9 +9,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <common:LayoutAwarePage.Background>
-        <ImageBrush ImageSource="Assets/background.jpg" Stretch="UniformToFill"/>
-    </common:LayoutAwarePage.Background>
 
     <!--
         This grid acts as a root panel for the page that defines two rows:
@@ -19,14 +16,13 @@
         * Row 1 contains the rest of the page layout
     -->
     <Grid Style="{StaticResource LayoutRootStyle}">
+        <Grid.Background>
+            <ImageBrush ImageSource="Assets/background.jpg"/>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="140"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
 
         <!-- Back button and page title -->
         <Grid Grid.ColumnSpan="2">
@@ -34,37 +30,42 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}"/>
-            <TextBlock x:Name="pageTitle" Grid.Column="1" Text="{StaticResource AppName}" Style="{StaticResource PageHeaderTextStyle}"/>
+            <TextBlock x:Name="pageTitle" Grid.Column="1" Text="{StaticResource AppName}" Style="{StaticResource PageHeaderTextStyle}" Margin="120,0,30,40"/>
         </Grid>
 
-        <Grid Grid.Row="1" Margin="120,0,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width=".05*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width=".05*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width=".05*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <TextBlock Text="Download" HorizontalAlignment="Center" Style="{StaticResource SubheaderTextStyle}"/>
-            <local:BandwidthMeter Grid.Row="1" x:Name="PolicyDown" Grid.Column="0" />
-            <TextBlock Grid.Column="2" Text="Upload" HorizontalAlignment="Center" Style="{StaticResource SubheaderTextStyle}"/>
-            <local:BandwidthMeter Grid.Row="1" x:Name="PolicyUp" Grid.Column="2" />
-            <TextBlock Grid.Column="4" Text="Download" HorizontalAlignment="Center" Style="{StaticResource SubheaderTextStyle}"/>
-            <local:BandwidthMeter x:Name="ActualDown" Grid.Row="1" Grid.Column="4"/>
-            <TextBlock Grid.Column="6" Text="Upload" HorizontalAlignment="Center" Style="{StaticResource SubheaderTextStyle}"/>
-            <local:BandwidthMeter x:Name="ActualUp" Grid.Row="1" Grid.Column="6" />
-        </Grid>
-
-        <Image Grid.Row="1" Grid.Column="1" Source="http://web.rose-hulman.edu/administration/helpdesk/siteimages/Internet_Link_Utilization_1Day.png"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+        <ScrollViewer Grid.Row="1" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Hidden"
+                      HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
+            <Grid Margin="120,0,0,100">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="240"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="240"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="240"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="240"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Download" HorizontalAlignment="Center" Style="{StaticResource SubheaderTextStyle}" Margin="0,0,0,10"/>
+                <local:BandwidthMeter Grid.Row="1" x:Name="PolicyDown" Grid.Column="0" />
+                <TextBlock Grid.Column="2" Text="Upload" HorizontalAlignment="Center" Style="{StaticResource SubheaderTextStyle}"/>
+                <local:BandwidthMeter Grid.Row="1" x:Name="PolicyUp" Grid.Column="2" />
+                <TextBlock Grid.Column="4" Text="Download" HorizontalAlignment="Center" Style="{StaticResource SubheaderTextStyle}"/>
+                <local:BandwidthMeter x:Name="ActualDown" Grid.Row="1" Grid.Column="4"/>
+                <TextBlock Grid.Column="6" Text="Upload" HorizontalAlignment="Center" Style="{StaticResource SubheaderTextStyle}"/>
+                <local:BandwidthMeter x:Name="ActualUp" Grid.Row="1" Grid.Column="6" />
+                <Rectangle Grid.Column="8" Grid.Row="1" Fill="White"></Rectangle>
+                <TextBlock Grid.Column="8" Text="Campus-wide bandwidth usage" Style="{StaticResource SubheaderTextStyle}"/>
+                <Image Grid.Column="8" Grid.Row="1" MaxWidth="640" 
+                       Source="http://web.rose-hulman.edu/administration/helpdesk/siteimages/Internet_Link_Utilization_1Day.png"/>
+            </Grid>
+        </ScrollViewer>
         <VisualStateManager.VisualStateGroups>
 
             <!-- Visual states reflect the application's view state -->

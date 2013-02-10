@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Threading.Tasks;
 
     using HtmlAgilityPack;
 
@@ -59,18 +60,10 @@
 
     public class Scraper
     {
-        #region Static Fields
-
-        private static MainPage page;
-
-        #endregion
-
         #region Public Methods and Operators
 
-        public static async void Scrape(object page)
+        public static async Task<BandwidthResults> Scrape()
         {
-            Scraper.page = (MainPage)page;
-
             var web = new HtmlWeb();
 
             var settings = ApplicationData.Current.RoamingSettings.Values;
@@ -81,14 +74,14 @@
                 await
                 web.LoadFromWebAsync(
                     siteToLoad, new UTF8Encoding(), (string)settings["user"], (string)settings["pass"], "rose-hulman");
-            ParseBandwidthDocument(doc);
+            return ParseBandwidthDocument(doc);
         }
 
         #endregion
 
         #region Methods
 
-        private static void ParseBandwidthDocument(HtmlDocument doc)
+        private static BandwidthResults ParseBandwidthDocument(HtmlDocument doc)
         {
             // if (e.Error is WebException)
             // {
@@ -111,8 +104,8 @@
                                   ActualReceived = htmlNodes.ElementAt(3).InnerText, 
                                   ActualSent = htmlNodes.ElementAt(4).InnerText
                               };
-            page.UpdateUi(results, true);
             results.SaveToIsolatedStorage();
+            return results;
         }
 
         #endregion

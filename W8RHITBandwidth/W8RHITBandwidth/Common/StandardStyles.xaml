@@ -70,6 +70,14 @@
         <Setter Property="Typography.DiscretionaryLigatures" Value="True"/>
         <Setter Property="Typography.CaseSensitiveForms" Value="True"/>
     </Style>
+    
+    <!--<Style x:Key="SettingsPaneTextStyle" TargetType="TextBlock" BasedOn="{StaticResource BasicTextStyle}">
+        <Setter Property="Foreground" Value="#b80040"/>
+    </Style>
+    
+    <Style x:Key="SettingsPaneSubheaderTextStyle" TargetType="TextBlock" BasedOn="{StaticResource SubheaderTextStyle}">
+        <Setter Property="Foreground" Value="#b80040"/>
+    </Style>-->
 
     <Style x:Key="BaselineTextStyle" TargetType="TextBlock" BasedOn="{StaticResource BasicTextStyle}">
         <Setter Property="LineHeight" Value="20"/>

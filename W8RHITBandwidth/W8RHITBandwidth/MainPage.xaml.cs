@@ -62,7 +62,7 @@
             return double.Parse(str.Split(' ')[0]);
         }
 
-        private void MainPageLoaded(object sender, RoutedEventArgs e)
+        private async void MainPageLoaded(object sender, RoutedEventArgs e)
         {
             IPropertySet settings = ApplicationData.Current.RoamingSettings.Values;
             PolicyDown.LowThresholdMb = (int)settings["LowThreshold"];
@@ -85,7 +85,8 @@
                 this.UpdateUi(BandwidthResults.RetrieveFromIsolatedStorage(), false);
             }
 
-            ThreadPool.RunAsync(Scraper.Scrape);
+            var results = await Scraper.Scrape();
+            UpdateUi(results, true);
         }
 
         #endregion

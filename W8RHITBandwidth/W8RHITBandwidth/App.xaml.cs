@@ -20,6 +20,10 @@ using Windows.UI.Xaml.Navigation;
 
 namespace W8RHITBandwidth
 {
+    using Windows.Storage;
+    using Windows.UI.ApplicationSettings;
+    using Windows.UI.Popups;
+
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
@@ -47,7 +51,7 @@ namespace W8RHITBandwidth
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
-            
+
             if (rootFrame == null)
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
@@ -74,9 +78,16 @@ namespace W8RHITBandwidth
             }
             if (rootFrame.Content == null)
             {
-                // When the navigation stack isn't restored navigate to the first page,
-                // configuring the new page by passing required information as a navigation
-                // parameter
+                var settings = ApplicationData.Current.RoamingSettings.Values;
+                if (settings.ContainsKey("user"))
+                { // no first-time setup required
+                    if (!rootFrame.Navigate(typeof(MainPage)))
+                    {
+                        throw new Exception("Failed to create initial page");
+                    }
+                }
+
+                if (!settings.ContainsKey("MidThreshold")) AddDefaultSettings(settings);
                 if (!rootFrame.Navigate(typeof(MainPage)))
                 {
                     throw new Exception("Failed to create initial page");
@@ -84,6 +95,16 @@ namespace W8RHITBandwidth
             }
             // Ensure the current window is active
             Window.Current.Activate();
+        }
+
+        private static void AddDefaultSettings(IPropertySet settings)
+        {
+            settings.Add("MidThreshold", 8000);
+            settings.Add("LowThreshold", 9000);
+            settings.Add("MidRate", 1024);
+            settings.Add("LowRate", 256);
+            settings.Add("PctDiscount", 75);
+
         }
 
         /// <summary>

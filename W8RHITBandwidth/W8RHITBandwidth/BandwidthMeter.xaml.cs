@@ -23,7 +23,6 @@
         public BandwidthMeter()
         {
             this.InitializeComponent();
-            this.Loaded += this.BandwidthMeterLoaded;
         }
 
         #endregion
@@ -39,6 +38,7 @@
 
             set
             {
+                RedTextBlock.Text = value + " MB";
                 this.SetValue(LowThresholdMbProperty, value);
             }
         }
@@ -52,6 +52,7 @@
 
             set
             {
+                YellowTextBlock.Text = value + " MB";
                 this.SetValue(MedThresholdMbProperty, value);
             }
         }
@@ -66,23 +67,14 @@
             var fractionOfMaxUsageShown = value / (2 * this.LowThresholdMb - this.MidThresholdMb);
             var heightFromFraction = fractionOfMaxUsageShown * gridHeight;
             var to = heightFromFraction - 7.5; // compensate for border
-            ((DoubleAnimation)sb.Children[0]).To = to > 40 ? to : 40;
+            var an = ((DoubleAnimation)sb.Children[0]);
+            an.To = to > 40 ? to : 40;
             sb.Begin();
         }
 
         public void UpdateText(string text)
         {
             UsageTextBlock.Text = text;
-        }
-
-        #endregion
-
-        #region Methods
-
-        private void BandwidthMeterLoaded(object sender, RoutedEventArgs e)
-        {
-            this.RedTextBlock.Text = this.LowThresholdMb + " MB";
-            this.YellowTextBlock.Text = this.MidThresholdMb + " MB";
         }
 
         #endregion
