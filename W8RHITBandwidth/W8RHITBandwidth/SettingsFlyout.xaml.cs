@@ -11,6 +11,7 @@ namespace ApplicationSettings
 {
     using W8RHITBandwidth.Common;
 
+    using Windows.Storage;
     using Windows.UI.ApplicationSettings;
     using Windows.UI.ViewManagement;
     using Windows.UI.Xaml;
@@ -53,28 +54,22 @@ namespace ApplicationSettings
                                 ? ContentAnimationOffset
                                 : (ContentAnimationOffset * -1)
                     });
+
+            var settings = ApplicationData.Current.RoamingSettings.Values;
+
+            if (settings.ContainsKey("user")) UsernameTextBox.Text = (string)settings["user"];
+            if (settings.ContainsKey("pass")) PasswordBox.Password = (string)settings["pass"];
+
+            midThreshold = (int)settings["MidThreshold"];
+            lowThreshold = (int)settings["LowThreshold"];
+            MidRateTextBox.Text = ((int)settings["MidRate"]).ToString();
+            LowRateTextBox.Text = ((int)settings["LowRate"]).ToString();
+            HighestPercentDiscountTextBox.Text = ((int)settings["PctDiscount"]).ToString();
         }
 
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// This is the a common click handler for the buttons on the Flyout.  You would replace this with your own handler
-        ///     if you have a button or buttons on this page.
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void FlyoutButton_Click(object sender, RoutedEventArgs e)
-        {
-            var b = sender as Button;
-            if (b != null)
-            {
-                // rootPage.NotifyUser("You selected the " + b.Content + " button", NotifyType.StatusMessage);
-            }
-        }
 
         /// <summary>
         /// This is the click handler for the back button on the Flyout.
@@ -96,6 +91,34 @@ namespace ApplicationSettings
             if (ApplicationView.Value != ApplicationViewState.Snapped)
             {
                 SettingsPane.Show();
+            }
+        }
+
+        private int lowThreshold;
+        public int LowThreshold
+        {
+            get
+            {
+                return lowThreshold;
+            }
+            set
+            {
+                lowThreshold = value;
+
+            }
+        }
+
+        private int midThreshold;
+        public int MidThreshold
+        {
+            get
+            {
+                return midThreshold;
+            }
+            set
+            {
+                midThreshold = value;
+
             }
         }
 
