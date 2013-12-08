@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using System.Threading.Tasks;
 
 namespace RoseHulmanBandwidthMonitorApp
 {
@@ -58,7 +59,7 @@ namespace RoseHulmanBandwidthMonitorApp
                                 };
             SystemTray.ProgressIndicator = indicator;
 
-            new Thread(Scraper.Scrape).Start(this);
+            Task.Run(()=>Scraper.Scrape(this));
         }
 
         public void UpdateUi(BandwidthResults bandwidthResults, bool fromNetwork)
