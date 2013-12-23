@@ -44,9 +44,9 @@ namespace RoseHulmanBandwidthMonitorApp
     {
         private static MainPage _page;
 
-        public static void Scrape(object page)
+        public static void Scrape(MainPage page)
         {
-            _page = (MainPage)page;
+            _page = page;
 
             var web = new HtmlWeb();
             web.LoadCompleted += ParseBandwidthDocument;
